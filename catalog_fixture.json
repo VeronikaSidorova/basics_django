@@ -1,0 +1,104 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Смартфоны",
+        "description": "Смартфоны для жизни"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Ноутбуки",
+        "description": "Лучшие ноутбуки для работы и развлечений"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Телевизоры",
+        "description": "Для домашнего просмотра как в кинотеатре"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Apple iPhone 15",
+        "description": "память 128 Gb, цвет Gold",
+        "image": "",
+        "category": 1,
+        "price": 100000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Apple iPhone 16",
+        "description": "память 1 Tb, цвет Black",
+        "image": "",
+        "category": 1,
+        "price": 200000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "Apple Macbook Air 15",
+        "description": "RAM 8 Gb, SSD 256 Gb, цвет RoseGold",
+        "image": "",
+        "category": 2,
+        "price": 85000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "Apple Macbook Air 13",
+        "description": "RAM 8 Gb, SSD 512 Gb, цвет Space Gray",
+        "image": "",
+        "category": 2,
+        "price": 83000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Телевизор Tuvio DLED Frameless",
+        "description": "85 дюймов, 4K UHD, цвет Black",
+        "image": "",
+        "category": 3,
+        "price": 99000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "Телевизор Haier",
+        "description": "85 дюймов, Smart TV S8 QD, цвет Silver",
+        "image": "",
+        "category": 3,
+        "price": 116000,
+        "created_at": "2025-06-05",
+        "updated_at": "2025-06-05"
+    }
+}
+]
