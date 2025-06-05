@@ -56,3 +56,16 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+
+
+class ContactInfo(models.Model):
+    country = models.CharField("Страна", max_length=100)
+    inn = models.CharField("ИНН", max_length=20)
+    address = models.CharField("Адрес", max_length=255)
+
+    class Meta:
+        verbose_name = "Контактная информация"
+        verbose_name_plural = "Контактные информации"
+
+    def __str__(self):
+        return f"{self.country} - {self.address}"
