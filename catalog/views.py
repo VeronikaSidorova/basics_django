@@ -1,21 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 
+from catalog.forms import ProductForm
 from catalog.models import Product, ContactInfo
 
 
 def home(request):
-    latest_products = Product.objects.order_by('-created_at')[:5]
-
-    # Выводим последние 5 продуктов в консоль
-    print("Последние 5 созданных продуктов:")
-    for product in latest_products:
-        print(f"ID: {product.id}, Название: {product.name}, Создано: {product.created_at}")
+    products = Product.objects.all()
 
     context = {
-        'latest_products': latest_products,
+        'products': products,
     }
-    return render(request, "home.html", context)
+    return render(request, "products_list.html", context)
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {
+        'product': product,
+    }
+    return render(request, "product_detail.html", context)
+
 
 
 def contacts(request):
@@ -33,3 +38,14 @@ def contact(request):
         # Здесь мы просто возвращаем простой ответ
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
     return render(request, "contacts.html")
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:home')
+    else:
+        form = ProductForm()
+    return render(request, 'add_product.html', {'form': form})
