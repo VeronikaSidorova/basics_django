@@ -1,51 +1,62 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
-from catalog.forms import ProductForm
+from catalog.forms import ContactForm
 from catalog.models import Product, ContactInfo
 
-
-def home(request):
-    products = Product.objects.all()
-
-    context = {
-        'products': products,
-    }
-    return render(request, "products_list.html", context)
+class ProductListView(ListView):
+    model = Product
+    template_name = "products_list.html"
+    context_object_name = "products"
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {
-        'product': product,
-    }
-    return render(request, "product_detail.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "product_detail.html"
+    context_object_name = "product"
 
 
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ["name", "description", "image", "category", "price"]
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:products_list")
 
-def contacts(request):
-    contact_info = ContactInfo.objects.first()
-    return render(request, "contacts.html", {'contact_info': contact_info})
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ["name", "description", "image", "category", "price"]
+    template_name = "product_form.html"
+    success_url = reverse_lazy("catalog:products_list")
 
 
-def contact(request):
-    if request.method == "POST":
-        # Получение данных из формы
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-        message = request.POST.get("message")
-        # Обработка данных (например, сохранение в БД, отправка email и т. д.)
-        # Здесь мы просто возвращаем простой ответ
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:products_list")
+
+
+class ContactsView(TemplateView):
+    template_name = "contacts.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contact_info'] = ContactInfo.objects.first()
+        return context
+
+
+class ContactFormView(FormView):
+    template_name = "contacts.html"
+    form_class = ContactForm
+
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        phone = form.cleaned_data['phone']
+        message = form.cleaned_data['message']
+        # Обработка данных (сохранение, отправка email и т.д.)
+        # Для примера возвращаем простое сообщение
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-    return render(request, "contacts.html")
 
-
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('catalog:home')
-    else:
-        form = ProductForm()
-    return render(request, 'add_product.html', {'form': form})
