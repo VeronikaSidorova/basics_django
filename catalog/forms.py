@@ -1,19 +1,6 @@
 from django import forms
-from .models import Product
 
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = [
-            'name',
-            'description',
-            'image',
-            'category',
-            'price',
-            'created_at',
-            'updated_at'
-        ]
-        widgets = {
-            'created_at': forms.DateInput(attrs={'type': 'date'}),
-            'updated_at': forms.DateInput(attrs={'type': 'date'}),
-        }
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    phone = forms.CharField(max_length=20)
+    message = forms.CharField(widget=forms.Textarea)

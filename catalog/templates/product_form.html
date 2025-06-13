@@ -1,0 +1,13 @@
+{% extends 'home.html'%}
+
+{% block title %}Форма создания товара{% endblock %}
+
+{% block content %}
+<h2>Форма создания товара</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Сохранить</button>
+    <a href="{% url 'catalog:products_list' %}" class="btn btn-lg btn-block btn-outline-secondary">Отменить</a>
+</form>
+{% endblock %}

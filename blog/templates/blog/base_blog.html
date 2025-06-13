@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Skystore Blog{% endblock %}</title>
+    <!-- Подключите статичеcкие файлы со стилями Bootstrap -->
+    <link rel="stylesheet" href="/static_bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-2 font-weight-normal">SkystoreBlog</h5>
+    <nav class="ms-5">
+        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_list' %}">Вернуться к каталогу</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'blog:blog_list' %}">Блог</a>
+        <a class="p-2 btn btn-success ms-auto" href="{% url 'blog:post_create' %}">Добавить пост</a>
+    </nav>
+</div>
+
+<div class="container">
+{% block content %}
+{% endblock %}
+
+</div>
+<!-- Подключите статичеcкие файлы со скриптами Bootstrap -->
+<script src="/static_bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
