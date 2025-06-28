@@ -1,0 +1,45 @@
+{% extends 'blog/base_blog.html'%}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<div class="row text-center">
+    <div class="col-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h5 class="my-0 font-weight-normal">{{object.title}}</h5>
+            </div>
+            <div class="card-body">
+                <div style="width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;">
+                    {% if object.preview_image and object.preview_image.name %}
+                        <img src="{{ object.preview_image.url }}" alt="{{ object.title }}" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                    {% else %}
+                        <!-- Заглушка или пустой блок -->
+                        <span style="color: #999;">Нет изображения</span>
+                    {% endif %}
+                </div>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3" style="min-height: 120px;">
+                    <li>
+                        Содержимое: {{object.content}}
+                    </li>
+                    <li>
+                        Дата создания: {{object.created_at|date:"d M Y"}}
+                    </li>
+                    <li>
+                        Опубликовано:
+                        {% if object.is_published %}
+                            Да
+                        {% else %}
+                            Нет
+                        {% endif %}
+                    </li>
+                    <li>
+                        Количество просмотров: {{object.views_count}}
+                    </li>
+                </ul>
+                <a href="{% url 'blog:blog_list' %}" class="btn btn-lg btn-block btn-outline-primary">Назад</a>
+                <a href="{% url 'blog:post_update' object.pk %}" class="btn btn-lg btn-block btn-outline-secondary">Редактировать</a>
+                <a href="{% url 'blog:post_delete' object.pk %}" class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
