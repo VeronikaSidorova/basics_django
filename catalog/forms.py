@@ -1,6 +1,8 @@
 import os
 
+from PIL import Image
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, BooleanField
 
 from catalog.models import Product
@@ -72,12 +74,22 @@ class ProductForm(StyleFormMixin, ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get('image')
-        if image:
-            max_size_mb = 5
-            if image.size > max_size_mb * 1024 * 1024:
-                raise forms.ValidationError(f"Размер файла не должен превышать {max_size_mb} МБ.")
-            ext = os.path.splitext(image.name)[1].lower()
-            if ext not in ['.jpg', '.jpeg', '.png']:
-                raise forms.ValidationError("Допустимые форматы изображений: JPEG, PNG.")
+        if not image:
+            return image  # поле необязательно или уже проверено
+
+        # Проверка размера файла (в байтах)
+        max_size = 5 * 1024 * 1024  # 5 МБ
+        if image.size > max_size:
+            raise ValidationError("Размер файла не должен превышать 5 МБ.")
+
+        # Проверка формата изображения
+        try:
+            # image.file — это файловый объект, читаемый библиотекой PIL
+            img = Image.open(image.file)
+            img_format = img.format.lower()
+            if img_format not in ['jpeg', 'png']:
+                raise ValidationError("Допустимые форматы изображений: JPEG, PNG.")
+        except Exception:
+            raise ValidationError("Загруженный файл не является допустимым изображением.")
         return image
 
