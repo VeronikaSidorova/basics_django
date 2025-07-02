@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from catalog.forms import ContactForm, ProductForm
 from catalog.models import Product, ContactInfo
 
+
 class ProductListView(ListView):
     model = Product
     template_name = "products_list.html"
@@ -44,7 +45,7 @@ class ContactsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contact_info'] = ContactInfo.objects.first()
+        context["contact_info"] = ContactInfo.objects.first()
         return context
 
 
@@ -53,10 +54,9 @@ class ContactFormView(FormView):
     form_class = ContactForm
 
     def form_valid(self, form):
-        name = form.cleaned_data['name']
-        phone = form.cleaned_data['phone']
-        message = form.cleaned_data['message']
+        name = form.cleaned_data["name"]
+        phone = form.cleaned_data["phone"]
+        message = form.cleaned_data["message"]
         # Обработка данных (сохранение, отправка email и т.д.)
         # Для примера возвращаем простое сообщение
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-

@@ -42,13 +42,18 @@ class Product(models.Model):
         help_text="Загрузите изображение продукта",
     )
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, verbose_name="Категория", related_name="categories"
+        Category,
+        on_delete=models.CASCADE,
+        verbose_name="Категория",
+        related_name="categories",
     )
     price = models.IntegerField(
         verbose_name="Цена за покупку", help_text="Введите стоимость продукта"
     )
     created_at = models.DateField(verbose_name="Дата создания", auto_now_add=True)
-    updated_at = models.DateField(verbose_name="Дата последнего изменения", auto_now=True)
+    updated_at = models.DateField(
+        verbose_name="Дата последнего изменения", auto_now=True
+    )
     is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
 
     def __str__(self):
