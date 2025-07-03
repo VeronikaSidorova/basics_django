@@ -15,6 +15,7 @@ class UserForm(StyleFormMixin, ModelForm):
     class Meta:
         model = User
         fields = [
+            "username",
             "avatar",
             "phone",
             "country",

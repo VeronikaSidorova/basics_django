@@ -18,6 +18,14 @@
                 </div>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3" style="min-height: 120px;">
                     <li>
+                        Имя пользователя:
+                        {% if user.username %}
+                            {{ user.username }}
+                        {% else %}
+                            Имя пользователя не заполнено.
+                        {% endif %}
+                    </li>
+                    <li>
                         Номер телефона:
                         {% if user.phone %}
                             {{ user.phone }}
