@@ -14,4 +14,8 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
 class UserForm(StyleFormMixin, ModelForm):
     class Meta:
         model = User
-        fields = ["avatar", "phone", "country",]
+        fields = [
+            "avatar",
+            "phone",
+            "country",
+        ]

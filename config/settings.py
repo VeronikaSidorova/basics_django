@@ -4,8 +4,15 @@ from selectors import SelectSelector
 from dotenv import load_dotenv
 from pathlib import Path
 
-from django.conf.global_settings import STATICFILES_DIRS, MEDIA_URL, MEDIA_ROOT, AUTH_USER_MODEL, LOGIN_REDIRECT_URL, \
-    LOGOUT_REDIRECT_URL, SERVER_EMAIL
+from django.conf.global_settings import (
+    STATICFILES_DIRS,
+    MEDIA_URL,
+    MEDIA_ROOT,
+    AUTH_USER_MODEL,
+    LOGIN_REDIRECT_URL,
+    LOGOUT_REDIRECT_URL,
+    SERVER_EMAIL,
+)
 
 load_dotenv(override=True)
 

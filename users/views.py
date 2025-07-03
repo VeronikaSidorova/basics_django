@@ -46,7 +46,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "user_detail"
 
     def get_object(self):
-        token = self.kwargs.get('token')
+        token = self.kwargs.get("token")
         return get_object_or_404(User, token=token)
 
 
@@ -61,4 +61,3 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
     template_name = "user_confirm_delete.html"
     success_url = reverse_lazy("catalog:products_list")
-
