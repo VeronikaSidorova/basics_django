@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -22,7 +23,7 @@ class BlogListView(ListView):
 
 
 # Детальный просмотр с увеличением счетчика просмотров (переопределяем get_object)
-class BlogDetailView(DetailView):
+class BlogDetailView(LoginRequiredMixin, DetailView):
     model = BlogPost
 
     template_name = "blog/post_detail.html"
@@ -34,7 +35,7 @@ class BlogDetailView(DetailView):
 
 
 # Создание нового поста
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = "blog/post_form.html"
@@ -42,7 +43,7 @@ class BlogCreateView(CreateView):
 
 
 # Обновление поста с перенаправлением на страницу просмотра этого поста после успешного редактирования.
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = "blog/post_form.html"
@@ -53,7 +54,7 @@ class BlogUpdateView(UpdateView):
 
 
 # Удаление поста (после удаления возвращаемся к списку)
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = BlogPost
     template_name = "blog/post_confirm_delete.html"
     success_url = reverse_lazy("blog:blog_list")

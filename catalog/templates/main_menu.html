@@ -2,6 +2,13 @@
     <h5 class="my-0 mr-md-2 font-weight-normal">Skystore</h5>
     <nav class="ms-5">
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:products_list' %}">Каталог</a>
+        {% if user.is_authenticated %}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:user_detail' token=user.token %}">Профиль</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выход</a>
+        {% else %}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Вход</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+        {% endif %}
         <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
         <a class="p-2 btn btn-success ms-auto" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
     </nav>
