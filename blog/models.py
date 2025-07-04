@@ -37,3 +37,7 @@ class BlogPost(models.Model):
     class Meta:
         verbose_name = "Блог"
         verbose_name_plural = "Посты"
+        permissions = [
+            ("can_edit_post", "Can edit post"),
+            ("can_delete_post", "Can delete post"),
+        ]
