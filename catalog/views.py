@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
@@ -7,33 +7,34 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from catalog.forms import ContactForm, ProductForm
 from catalog.models import Product, ContactInfo
 
+
 class ProductListView(ListView):
     model = Product
     template_name = "products_list.html"
     context_object_name = "products"
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_detail.html"
     context_object_name = "product"
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
     success_url = reverse_lazy("catalog:products_list")
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "product_form.html"
     success_url = reverse_lazy("catalog:products_list")
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_confirm_delete.html"
     success_url = reverse_lazy("catalog:products_list")
@@ -44,7 +45,7 @@ class ContactsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contact_info'] = ContactInfo.objects.first()
+        context["contact_info"] = ContactInfo.objects.first()
         return context
 
 
@@ -53,10 +54,9 @@ class ContactFormView(FormView):
     form_class = ContactForm
 
     def form_valid(self, form):
-        name = form.cleaned_data['name']
-        phone = form.cleaned_data['phone']
-        message = form.cleaned_data['message']
+        name = form.cleaned_data["name"]
+        phone = form.cleaned_data["phone"]
+        message = form.cleaned_data["message"]
         # Обработка данных (сохранение, отправка email и т.д.)
         # Для примера возвращаем простое сообщение
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-

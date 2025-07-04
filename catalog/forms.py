@@ -14,66 +14,64 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
 
 
-class StyleFormMixin():
+class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for fild_name, fild in self.fields.items():
             if isinstance(fild, BooleanField):
-                fild.widget.attrs['class'] = "form-check-input"
+                fild.widget.attrs["class"] = "form-check-input"
             else:
-                fild.widget.attrs['class'] = "form-control"
+                fild.widget.attrs["class"] = "form-control"
 
 
 FORBIDDEN_WORDS = [
-            'казино',
-            'криптовалюта',
-            'крипта',
-            'биржа',
-            'дешево',
-            'бесплатно',
-            'обман',
-            'полиция',
-            'радар'
-        ]
+    "казино",
+    "криптовалюта",
+    "крипта",
+    "биржа",
+    "дешево",
+    "бесплатно",
+    "обман",
+    "полиция",
+    "радар",
+]
 
 
 def _validate_forbidden_words(text):
     text_lower = text.lower()
     for word in FORBIDDEN_WORDS:
         if word in text_lower:
-            raise forms.ValidationError(
-                f"Использование слова '{word}' запрещено."
-            )
+            raise forms.ValidationError(f"Использование слова '{word}' запрещено.")
 
 
 class ProductForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at', )
+        exclude = (
+            "created_at",
+            "updated_at",
+        )
 
     def clean_name(self):
-        name = self.cleaned_data.get('name', '')
+        name = self.cleaned_data.get("name", "")
         _validate_forbidden_words(name)
         return name
 
-
     def clean_description(self):
-        description = self.cleaned_data.get('description', '')
+        description = self.cleaned_data.get("description", "")
         _validate_forbidden_words(description)
         return description
 
-
     def clean_price(self):
-        price = self.cleaned_data.get('price')
+        price = self.cleaned_data.get("price")
         if price is None:
             raise forms.ValidationError("Цена не может быть пустой.")
         if price <= 0:
             raise forms.ValidationError("Цена не может быть нулевой или отрицательной.")
         return price
 
-
     def clean_image(self):
-        image = self.cleaned_data.get('image')
+        image = self.cleaned_data.get("image")
         if not image:
             return image  # поле необязательно или уже проверено
 
@@ -87,9 +85,10 @@ class ProductForm(StyleFormMixin, ModelForm):
             # image.file — это файловый объект, читаемый библиотекой PIL
             img = Image.open(image.file)
             img_format = img.format.lower()
-            if img_format not in ['jpeg', 'png']:
+            if img_format not in ["jpeg", "png"]:
                 raise ValidationError("Допустимые форматы изображений: JPEG, PNG.")
         except Exception:
-            raise ValidationError("Загруженный файл не является допустимым изображением.")
+            raise ValidationError(
+                "Загруженный файл не является допустимым изображением."
+            )
         return image
-
