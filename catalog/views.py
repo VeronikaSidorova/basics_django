@@ -7,12 +7,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 
 from catalog.forms import ContactForm, ProductForm, ProductModeratorForm
 from catalog.models import Product, ContactInfo
+from catalog.services import get_products_from_cache
 
 
 class ProductListView(ListView):
     model = Product
     template_name = "products_list.html"
     context_object_name = "products"
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
