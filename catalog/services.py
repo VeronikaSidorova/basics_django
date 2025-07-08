@@ -16,4 +16,9 @@ def get_products_from_cache():
     return products
 
 
-
+def get_products_by_category(category_id):
+    try:
+        category = Category.objects.get(id=category_id)
+        return category.categories.all()
+    except Category.DoesNotExist:
+        return []
