@@ -6,8 +6,13 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from catalog.forms import ContactForm, ProductForm, ProductModeratorForm
-from catalog.models import Product, ContactInfo
+from catalog.models import Product, ContactInfo, Category
 from catalog.services import get_products_from_cache
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = "category_list.html"
+    context_object_name = "categories"
 
 
 class ProductListView(ListView):

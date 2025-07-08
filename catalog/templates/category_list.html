@@ -1,0 +1,16 @@
+{% extends 'home.html'%}
+{% block content %}
+
+<div class="row text-center">
+    {% for category in categories %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h5 class="my-0 font-weight-normal">{{category.name}}</h5>
+                <a href="#" class="btn btn-lg btn-block btn-outline-primary">Просмотр</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

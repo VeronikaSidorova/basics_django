@@ -9,12 +9,13 @@ from catalog.views import (
     ProductUpdateView,
     ProductDeleteView,
     ContactsView,
-    ContactFormView,
+    ContactFormView, CategoryListView,
 )
 
 app_name = CatalogConfig.name
 
 urlpatterns = [
+    path("categories/", CategoryListView.as_view(), name="category_list"),
     path("products/", ProductListView.as_view(), name="products_list"),
     path("products/new/", ProductCreateView.as_view(), name="product_create"),
     path("products/<int:pk>", cache_page(60)(ProductDetailView.as_view()), name="product_detail"),
