@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.views.generic import (
     ListView,
     DetailView,
@@ -8,7 +9,7 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy, reverse
 from .models import BlogPost
-from .forms import BlogPostForm
+from .forms import BlogPostForm, PostModeratorForm
 
 
 # Список опубликованных статей только с фильтрацией по is_published=True
@@ -52,9 +53,21 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
         # После редактирования перенаправляем на страницу просмотра статьи.
         return reverse("blog:post_detail", kwargs={"pk": self.object.pk})
 
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("blog.can_edit_post"):
+            return PostModeratorForm
+        raise PermissionDenied
+
 
 # Удаление поста (после удаления возвращаемся к списку)
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = BlogPost
     template_name = "blog/post_confirm_delete.html"
     success_url = reverse_lazy("blog:blog_list")
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("blog.can_delete_post"):
+            return PostModeratorForm
+        raise PermissionDenied

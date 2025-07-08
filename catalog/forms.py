@@ -50,6 +50,8 @@ class ProductForm(StyleFormMixin, ModelForm):
         exclude = (
             "created_at",
             "updated_at",
+            "is_published",
+            "owner",
         )
 
     def clean_name(self):
@@ -92,3 +94,9 @@ class ProductForm(StyleFormMixin, ModelForm):
                 "Загруженный файл не является допустимым изображением."
             )
         return image
+
+
+class ProductModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ("is_published",)
