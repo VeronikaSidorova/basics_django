@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+{% load custom_tags %}
+{% block content %}
+
+<div class="row text-center">
+    {% for category in categories %}
+    <div class="col-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h5 class="my-0 font-weight-normal">{{ category.name }}</h5>
+            </div>
+            {% if category_products|dict_get:category.id %}
+                <div class="d-flex flex-column align-items-center py-3">
+                    {% for product in category_products|dict_get:category.id %}
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-primary mb-3 w-75">{{product.name}}</a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Нет продуктов</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

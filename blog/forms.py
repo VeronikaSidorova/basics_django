@@ -12,7 +12,6 @@ class BlogPostForm(forms.ModelForm):
             "title",
             "content",
             "preview_image",
-            "is_published",
         )
 
 

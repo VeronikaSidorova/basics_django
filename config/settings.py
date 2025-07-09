@@ -128,3 +128,12 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_URL = "users:login"
 LOGIN_REDIRECT_URL = "catalog:products_list"
 LOGOUT_REDIRECT_URL = "catalog:products_list"
+
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://localhost:6379",
+        }
+    }
